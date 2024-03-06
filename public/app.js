@@ -44,17 +44,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     var users = [];
     // Attach Events
     document.addEventListener("DOMContentLoaded", initApp);
-    form.addEventListener("submit", handleSubmit);
+    form === null || form === void 0 ? void 0 : form.addEventListener("submit", handleSubmit);
     // Basic Logic
     function getUserName(userId) {
         var user = users.find(function (u) { return u.id === userId; });
-        return user.name;
+        return (user === null || user === void 0 ? void 0 : user.name) || "";
     }
     function printTodo(_a) {
         var id = _a.id, userId = _a.userId, title = _a.title, completed = _a.completed;
         var li = document.createElement("li");
         li.className = "todo-item";
-        li.dataset.id = id;
+        li.dataset.id = String(id);
         li.innerHTML = "<span>".concat(title, " <i>by</i> <b>").concat(getUserName(userId), "</b></span>");
         var status = document.createElement("input");
         status.type = "checkbox";
@@ -66,20 +66,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         close.addEventListener("click", handleClose);
         li.prepend(status);
         li.append(close);
-        todoList.prepend(li);
+        todoList === null || todoList === void 0 ? void 0 : todoList.prepend(li);
     }
     function createUserOption(user) {
-        var option = document.createElement("option");
-        option.value = user.id;
-        option.innerText = user.name;
-        userSelect.append(option);
+        if (userSelect) {
+            var option = document.createElement("option");
+            option.value = String(user.id);
+            option.innerText = user.name;
+            userSelect.append(option);
+        }
     }
     function removeTodo(todoId) {
-        todos = todos.filter(function (todo) { return todo.id !== todoId; });
-        var todo = todoList.querySelector("[data-id=\"".concat(todoId, "\"]"));
-        todo.querySelector("input").removeEventListener("change", handleTodoChange);
-        todo.querySelector(".close").removeEventListener("click", handleClose);
-        todo.remove();
+        var _a, _b;
+        if (todoList) {
+            todos = todos.filter(function (todo) { return todo.id !== todoId; });
+            var todo = todoList.querySelector("[data-id=\"".concat(todoId, "\"]"));
+            if (todo) {
+                (_a = todo
+                    .querySelector("input")) === null || _a === void 0 ? void 0 : _a.removeEventListener("change", handleTodoChange);
+                (_b = todo.querySelector(".close")) === null || _b === void 0 ? void 0 : _b.removeEventListener("click", handleClose);
+                todo.remove();
+            }
+        }
     }
     function alertError(error) {
         alert(error.message);
@@ -95,20 +103,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
     function handleSubmit(event) {
         event.preventDefault();
-        createTodo({
-            userId: Number(form.user.value),
-            title: form.todo.value,
-            completed: false,
-        });
+        if (form) {
+            createTodo({
+                userId: Number(form.user.value),
+                title: form.todo.value,
+                completed: false,
+            });
+        }
     }
     function handleTodoChange() {
-        var todoId = this.parentElement.dataset.id;
-        var completed = this.checked;
-        toggleTodoComplete(todoId, completed);
+        var parent = this.parentElement;
+        if (parent) {
+            var todoId = this.parentElement.dataset.id;
+            var completed = this.checked;
+            todoId && toggleTodoComplete(todoId, completed);
+        }
     }
     function handleClose() {
-        var todoId = this.parentElement.dataset.id;
-        deleteTodo(todoId);
+        var parent = this.parentElement;
+        if (parent) {
+            var todoId = this.parentElement.dataset.id;
+            todoId && deleteTodo(todoId);
+        }
     }
     // Async logic
     function getAllTodos() {
@@ -127,8 +143,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [2 /*return*/, data];
                     case 3:
                         error_1 = _a.sent();
-                        alertError(error_1);
-                        return [3 /*break*/, 4];
+                        if (error_1 instanceof Error)
+                            alertError(error_1);
+                        return [2 /*return*/, []];
                     case 4: return [2 /*return*/];
                 }
             });
@@ -150,8 +167,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [2 /*return*/, data];
                     case 3:
                         error_2 = _a.sent();
-                        alertError(error_2);
-                        return [3 /*break*/, 4];
+                        if (error_2 instanceof Error)
+                            alertError(error_2);
+                        return [2 /*return*/, []];
                     case 4: return [2 /*return*/];
                 }
             });
@@ -180,7 +198,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [3 /*break*/, 4];
                     case 3:
                         error_3 = _a.sent();
-                        alertError(error_3);
+                        if (error_3 instanceof Error)
+                            alertError(error_3);
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -209,7 +228,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [3 /*break*/, 3];
                     case 2:
                         error_4 = _a.sent();
-                        alertError(error_4);
+                        if (error_4 instanceof Error)
+                            alertError(error_4);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -240,7 +260,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [3 /*break*/, 3];
                     case 2:
                         error_5 = _a.sent();
-                        alertError(error_5);
+                        if (error_5 instanceof Error)
+                            alertError(error_5);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
